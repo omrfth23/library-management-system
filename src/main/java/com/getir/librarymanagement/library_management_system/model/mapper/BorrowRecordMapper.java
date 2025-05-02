@@ -10,7 +10,9 @@ import org.mapstruct.Mapping;
 public interface BorrowRecordMapper {
 
     @Mapping(source = "user.id", target = "userId")
+    @Mapping(source = "user.name", target = "userName")
     @Mapping(source = "book.bookId", target = "bookId")
+    @Mapping(source = "book.title", target = "bookTitle")
     @Mapping(source = "borrowRecordId", target = "borrowRecordId")
     BorrowResponseDTO toDto(BorrowRecord entity);
 }

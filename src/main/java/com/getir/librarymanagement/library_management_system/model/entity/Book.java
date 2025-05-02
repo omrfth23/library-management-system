@@ -23,7 +23,8 @@ public class Book {
 
     @Id //Id türünde değer
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "book_id")
+    private Long bookId;
 
     @NotBlank(message = "Title cannot be blank") //Not Blank ile boş geçilemez validation'u sağlandı
     private String title;
