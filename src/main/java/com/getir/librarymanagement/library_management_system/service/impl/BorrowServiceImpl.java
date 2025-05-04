@@ -1,6 +1,7 @@
 package com.getir.librarymanagement.library_management_system.service.impl;
 
 import com.getir.librarymanagement.library_management_system.exception.BookOutOfStockException;
+import com.getir.librarymanagement.library_management_system.model.dto.BookAvailabilityDTO;
 import com.getir.librarymanagement.library_management_system.model.dto.request.BorrowRequestDTO;
 import com.getir.librarymanagement.library_management_system.model.dto.response.BorrowResponseDTO;
 import com.getir.librarymanagement.library_management_system.model.entity.Book;
@@ -10,6 +11,7 @@ import com.getir.librarymanagement.library_management_system.model.mapper.Borrow
 import com.getir.librarymanagement.library_management_system.repository.BookRepository;
 import com.getir.librarymanagement.library_management_system.repository.BorrowRecordRepository;
 import com.getir.librarymanagement.library_management_system.repository.UserRepository;
+import com.getir.librarymanagement.library_management_system.service.BookAvailabilityPublisherService;
 import com.getir.librarymanagement.library_management_system.service.IBorrowService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,7 @@ public class BorrowServiceImpl implements IBorrowService {
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
     private final BorrowRecordMapper borrowRecordMapper;
+    private final BookAvailabilityPublisherService bookAvailabilityPublisher;
 
     @Override
     public BorrowResponseDTO borrowBook(BorrowRequestDTO borrowRequestDTO) {
@@ -55,8 +58,15 @@ public class BorrowServiceImpl implements IBorrowService {
 
         book.setQuantity(book.getQuantity() - 1);
         book.setAvailable(book.getQuantity() > 0);
-
         bookRepository.save(book);
+
+        //Reactive olarak avaailability publish
+        bookAvailabilityPublisher.publish(new BookAvailabilityDTO(
+                book.getBookId(),
+                book.getTitle(),
+                book.getQuantity() > 0
+        ));
+
         BorrowRecord savedRecord = borrowRecordRepository.save(borrowRecord);
 
         return borrowRecordMapper.toDto(savedRecord);
@@ -78,6 +88,14 @@ public class BorrowServiceImpl implements IBorrowService {
         book.setQuantity(book.getQuantity() + 1);
         book.setAvailable(true);
         bookRepository.save(book);
+
+        //Reactive olarak avaailability publish
+        bookAvailabilityPublisher.publish(new BookAvailabilityDTO(
+                book.getBookId(),
+                book.getTitle(),
+                true
+        ));
+
         BorrowRecord updatedRecord = borrowRecordRepository.save(borrowRecord);
 
         return borrowRecordMapper.toDto(updatedRecord);

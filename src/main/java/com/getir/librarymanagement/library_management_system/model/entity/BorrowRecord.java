@@ -20,7 +20,7 @@ import java.time.LocalDate;
 public class BorrowRecord {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "borrow_id")
     private Long borrowRecordId;
 
@@ -30,7 +30,7 @@ public class BorrowRecord {
     @NotNull(message = "Due date cannot be null")
     private LocalDate dueDate;
 
-    private LocalDate returnDate; // iade edilmediyse null olur
+    private LocalDate returnDate;
 
     private Boolean isReturned = false; // default = false
 

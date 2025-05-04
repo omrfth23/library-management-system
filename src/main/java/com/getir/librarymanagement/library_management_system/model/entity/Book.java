@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
+
 
 @Entity
 @Table(name = "books")
@@ -21,12 +21,12 @@ import java.util.List;
 @NoArgsConstructor
 public class Book {
 
-    @Id //Id türünde değer
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "book_id")
     private Long bookId;
 
-    @NotBlank(message = "Title cannot be blank") //Not Blank ile boş geçilemez validation'u sağlandı
+    @NotBlank(message = "Title cannot be blank")
     private String title;
 
     @NotBlank(message = "Author cannot be blank")

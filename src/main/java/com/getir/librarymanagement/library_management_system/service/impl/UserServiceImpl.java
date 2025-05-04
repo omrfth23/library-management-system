@@ -2,6 +2,7 @@ package com.getir.librarymanagement.library_management_system.service.impl;
 
 import com.getir.librarymanagement.library_management_system.enums.Role;
 import com.getir.librarymanagement.library_management_system.model.dto.request.UserRequestDTO;
+import com.getir.librarymanagement.library_management_system.model.dto.request.UserSelfUpdateRequestDTO;
 import com.getir.librarymanagement.library_management_system.model.dto.response.UserResponseDTO;
 import com.getir.librarymanagement.library_management_system.model.entity.User;
 import com.getir.librarymanagement.library_management_system.model.mapper.UserMapper;
@@ -68,7 +69,7 @@ public class UserServiceImpl implements IUserService {
         String email = getAuthenticatedEmail();
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("Kullanıcı bulunamadı."));
+                .orElseThrow(() -> new EntityNotFoundException("User Not Found."));
 
         return userMapper.toResponseDTO(user);
     }
@@ -83,6 +84,35 @@ public class UserServiceImpl implements IUserService {
 
         User updatedUser = userRepository.save(user);
         return userMapper.toResponseDTO(updatedUser);
+    }
+
+    @Override
+    public UserResponseDTO updateMyInfo(UserSelfUpdateRequestDTO dto) {
+        String currentEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        User user = userRepository.findByEmail(currentEmail)
+                .orElseThrow(() -> new EntityNotFoundException("User not found."));
+
+
+        if (!user.getEmail().equals(dto.getEmail()) && userRepository.existsByEmail(dto.getEmail())) {
+            throw new IllegalArgumentException("Email already in use.");
+        }
+
+
+        if (!user.getPhone().equals(dto.getPhone()) && userRepository.existsByPhone(dto.getPhone())) {
+            throw new IllegalArgumentException("Phone number already in use.");
+        }
+
+        user.setName(dto.getName());
+        user.setEmail(dto.getEmail());
+        user.setPhone(dto.getPhone());
+
+        if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
+            user.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
+
+        User updated = userRepository.save(user);
+        return userMapper.toResponseDTO(updated);
     }
 
     @Override

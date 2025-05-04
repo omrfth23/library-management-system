@@ -12,13 +12,13 @@ public interface IBookService {
 
     BookResponseDTO addBook(BookRequestDTO bookRequestDTO);
 
-    BookResponseDTO getBookById(Long id);
+    BookResponseDTO getBookById(Long bookId);
 
     List<BookResponseDTO> getAllBooks();
 
     Page<BookResponseDTO> searchBooks(BookSearchRequestDTO filters, Pageable pageable);
 
-    BookResponseDTO updateBook(Long id, BookRequestDTO bookRequestDTO);
+    BookResponseDTO updateBook(Long bookId, BookRequestDTO bookRequestDTO);
 
-    String deleteBook(Long id);
+    String deleteBook(Long bookId);
 }

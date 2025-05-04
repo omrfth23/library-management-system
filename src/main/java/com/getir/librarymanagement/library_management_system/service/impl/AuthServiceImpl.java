@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,9 +35,11 @@ public class AuthServiceImpl implements AuthService {
         if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Email already in use.");
         }
+
         if (userRepository.existsByPhone(registerRequest.getPhone())) {
             throw new IllegalArgumentException("Phone number already in use.");
         }
+
         User user = User.builder()
                 .name(registerRequest.getName())
                 .email(registerRequest.getEmail())
@@ -65,6 +66,7 @@ public class AuthServiceImpl implements AuthService {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
         );
+
         User user = userRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with email: " + loginRequest.getEmail()));
 

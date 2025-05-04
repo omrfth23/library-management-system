@@ -1,9 +1,9 @@
 package com.getir.librarymanagement.library_management_system.controller;
 
 import com.getir.librarymanagement.library_management_system.model.dto.request.UserRequestDTO;
+import com.getir.librarymanagement.library_management_system.model.dto.request.UserSelfUpdateRequestDTO;
 import com.getir.librarymanagement.library_management_system.model.dto.response.UserResponseDTO;
 import com.getir.librarymanagement.library_management_system.service.IUserService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -50,7 +50,7 @@ public class UserController {
     }
 
     @PutMapping("/me")
-    public ResponseEntity<UserResponseDTO> updateMyInfo(@RequestBody @Valid UserRequestDTO dto) {
+    public ResponseEntity<UserResponseDTO> updateMyInfo(@RequestBody @Valid UserSelfUpdateRequestDTO dto) {
         return ResponseEntity.ok(userService.updateMyInfo(dto));
     }
 

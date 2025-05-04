@@ -36,9 +36,9 @@ public class BorrowController {
     }
 
     @PreAuthorize("hasRole('LIBRARIAN')")
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<BorrowResponseDTO>> getBorrowHistoryByUser(@PathVariable Long userId) {
-        List<BorrowResponseDTO> borrowHistory = borrowService.getBorrowHistoryByUser(userId);
+    @GetMapping("/user/{borrowRecordId}")
+    public ResponseEntity<List<BorrowResponseDTO>> getBorrowHistoryByUser(@PathVariable Long borrowRecordId) {
+        List<BorrowResponseDTO> borrowHistory = borrowService.getBorrowHistoryByUser(borrowRecordId);
         return ResponseEntity.ok(borrowHistory);
     }
 
