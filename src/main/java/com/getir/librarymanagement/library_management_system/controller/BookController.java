@@ -62,6 +62,7 @@ public class BookController {
         return ResponseEntity.ok(result);
     }
 
+    @PreAuthorize("hasRole('LIBRARIAN')")
     @PutMapping("/{bookId}")
     public ResponseEntity<BookResponseDTO> updateBook(@PathVariable Long bookId,
                                                       @Valid @RequestBody BookRequestDTO bookRequestDTO) {

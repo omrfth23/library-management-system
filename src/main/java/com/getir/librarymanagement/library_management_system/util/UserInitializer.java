@@ -26,11 +26,12 @@ public class UserInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+
         createDefaultLibrarian();
         createDefaultPatron();
         createSampleBooks();
     }
-
+    
     private void createDefaultLibrarian() {
         String email = "librarian@getir.com";
         if (userRepository.findByEmail(email).isEmpty()) {

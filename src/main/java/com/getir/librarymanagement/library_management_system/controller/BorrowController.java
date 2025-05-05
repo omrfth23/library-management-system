@@ -56,8 +56,8 @@ public class BorrowController {
         return ResponseEntity.ok(allBorrowRecords);
     }
 
-    @DeleteMapping("/{borrowRecordId}")
     @PreAuthorize("hasRole('LIBRARIAN')")
+    @DeleteMapping("/{borrowRecordId}")
     public ResponseEntity<String> deleteBorrowRecord(@PathVariable Long borrowRecordId) {
         borrowService.deleteBorrowRecord(borrowRecordId);
         return ResponseEntity.ok("Borrow Record deleted successfully.");
