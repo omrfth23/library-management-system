@@ -169,7 +169,7 @@ The system initializes with the following default users:
 
 - **Patron**
   - Email: patron@getir.com
-  - Password: password123
+  - Password: password456
 
 ## Security
 
