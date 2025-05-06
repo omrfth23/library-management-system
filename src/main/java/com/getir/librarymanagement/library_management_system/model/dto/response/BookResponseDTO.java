@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class BookResponseDTO {
+
     private Long bookId;
     private String title;
     private String author;
@@ -21,5 +22,4 @@ public class BookResponseDTO {
     private String genre;
     private Integer quantity;
     private boolean available;
-
 }

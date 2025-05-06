@@ -10,11 +10,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+/**
+ * Handles authentication-related endpoints such as user registration and login.
+ */
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -22,6 +22,12 @@ public class AuthController {
 
     private final AuthService authService;
 
+    /**
+     * Registers a new user in the system with default role PATRON.
+     *
+     * @param registerRequest contains user details (name, email, phone, password)
+     * @return success message and user info if registration is successful
+     */
     @Operation(
             summary = "Register a new user",
             description = "Registers a new user as a PATRON by default. Requires name, email, phone, and password.",
@@ -37,7 +43,12 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-
+    /**
+     * Authenticates a user and issues a JWT token.
+     *
+     * @param loginRequest contains user email and password
+     * @return JWT token if credentials are valid
+     */
     @Operation(
             summary = "Login with email and password",
             description = "Authenticates a user and returns a JWT token.",
@@ -52,4 +63,4 @@ public class AuthController {
         LoginResponseDTO response = authService.login(loginRequest);
         return ResponseEntity.ok(response);
     }
-} 
+}

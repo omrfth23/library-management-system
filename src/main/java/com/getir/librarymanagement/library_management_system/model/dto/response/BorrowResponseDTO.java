@@ -22,5 +22,4 @@ public class BorrowResponseDTO {
     private LocalDate dueDate;
     private LocalDate returnDate;
     private Boolean isReturned;
-
 }

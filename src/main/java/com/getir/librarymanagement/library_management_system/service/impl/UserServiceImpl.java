@@ -10,31 +10,36 @@ import com.getir.librarymanagement.library_management_system.repository.UserRepo
 import com.getir.librarymanagement.library_management_system.service.IUserService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.AccessDeniedException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements IUserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
+    /**
+     * Returns the currently authenticated user's email.
+     */
     private String getAuthenticatedEmail() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return auth.getName(); // genelde email veya username
+        return auth.getName();
     }
 
+    /**
+     * Creates a new user account.
+     */
     @Override
     public UserResponseDTO createUser(UserRequestDTO userRequestDTO) {
         if (userRepository.existsByEmail(userRequestDTO.getEmail())) {
@@ -42,62 +47,85 @@ public class UserServiceImpl implements IUserService {
         }
 
         User user = userMapper.toEntity(userRequestDTO);
-        user.setPassword(passwordEncoder.encode(user.getPassword())); // Şifreyi manuel encode ediyoruz
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRegisteredDate(LocalDateTime.now());
 
         User savedUser = userRepository.save(user);
+        log.info("New user created with ID: {}", savedUser.getId());
         return userMapper.toResponseDTO(savedUser);
     }
 
+    /**
+     * Retrieves a user by ID.
+     */
     @Override
     public UserResponseDTO getUserById(Long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+                .orElseThrow(() -> {
+                    return new EntityNotFoundException("User not found with id: " + id);
+                });
+
         return userMapper.toResponseDTO(user);
     }
 
+    /**
+     * Retrieves all registered users.
+     */
     @Override
     public List<UserResponseDTO> getAllUsers() {
-        return userRepository.findAll()
-                .stream()
+        List<User> users = userRepository.findAll();
+        log.debug("Fetched all users. Total count: {}", users.size());
+        return users.stream()
                 .map(userMapper::toResponseDTO)
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Returns the currently authenticated user's info.
+     */
     @Override
     public UserResponseDTO getCurrentUserInfo() {
         String email = getAuthenticatedEmail();
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("User Not Found."));
+                .orElseThrow(() -> {
+                    return new EntityNotFoundException("User Not Found.");
+                });
 
         return userMapper.toResponseDTO(user);
     }
 
+    /**
+     * Updates a user's profile by their ID.
+     */
     @Override
     public UserResponseDTO updateUser(Long id, UserRequestDTO userRequestDTO) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+                .orElseThrow(() -> {
+                    return new EntityNotFoundException("User not found with id: " + id);
+                });
 
         userMapper.updateUserFromDto(userRequestDTO, user);
-        // Email ve password update edilmediği için burada ayrıca set etmiyoruz
-
         User updatedUser = userRepository.save(user);
+        log.info("User updated successfully. ID: {}", id);
         return userMapper.toResponseDTO(updatedUser);
     }
 
+    /**
+     * Allows the current user to update their own profile details.
+     */
     @Override
     public UserResponseDTO updateMyInfo(UserSelfUpdateRequestDTO dto) {
-        String currentEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        String currentEmail = getAuthenticatedEmail();
 
         User user = userRepository.findByEmail(currentEmail)
-                .orElseThrow(() -> new EntityNotFoundException("User not found."));
-
+                .orElseThrow(() -> {
+                    return new EntityNotFoundException("User not found.");
+                });
 
         if (!user.getEmail().equals(dto.getEmail()) && userRepository.existsByEmail(dto.getEmail())) {
             throw new IllegalArgumentException("Email already in use.");
         }
-
 
         if (!user.getPhone().equals(dto.getPhone()) && userRepository.existsByPhone(dto.getPhone())) {
             throw new IllegalArgumentException("Phone number already in use.");
@@ -112,16 +140,21 @@ public class UserServiceImpl implements IUserService {
         }
 
         User updated = userRepository.save(user);
+        log.info("User updated their own profile. Email: {}", updated.getEmail());
         return userMapper.toResponseDTO(updated);
     }
 
+    /**
+     * Deletes a user by ID.
+     */
     @Override
     public String deleteUser(Long id) {
         if (!userRepository.existsById(id)) {
             throw new EntityNotFoundException("User not found with id: " + id);
         }
-        userRepository.deleteById(id);
-        return "User Deleted Succesfully!";
-    }
 
+        userRepository.deleteById(id);
+        log.warn("User deleted. ID: {}", id);
+        return "User Deleted Successfully!";
+    }
 }

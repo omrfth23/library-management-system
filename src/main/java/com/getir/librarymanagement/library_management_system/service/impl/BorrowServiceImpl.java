@@ -13,6 +13,7 @@ import com.getir.librarymanagement.library_management_system.repository.UserRepo
 import com.getir.librarymanagement.library_management_system.service.IBorrowService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BorrowServiceImpl implements IBorrowService {
 
     private final BorrowRecordRepository borrowRecordRepository;
@@ -29,16 +31,23 @@ public class BorrowServiceImpl implements IBorrowService {
     private final BookRepository bookRepository;
     private final BorrowRecordMapper borrowRecordMapper;
 
+    /**
+     * Handles the borrowing process of a book by the current authenticated user.
+     */
     @Override
     public BorrowResponseDTO borrowBook(BorrowRequestDTO borrowRequestDTO) {
-
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("User not found."));
+                .orElseThrow(() -> {
+                    return new EntityNotFoundException("User not found.");
+                });
 
         Book book = bookRepository.findById(borrowRequestDTO.getBookId())
-                .orElseThrow(() -> new EntityNotFoundException("Book not found"));
+                .orElseThrow(() -> {
+                    return new EntityNotFoundException("Book not found");
+                });
+
         if (book.getQuantity() <= 0) {
             throw new BookOutOfStockException("Book is not available for borrowing.");
         }
@@ -51,19 +60,24 @@ public class BorrowServiceImpl implements IBorrowService {
                 .isReturned(false)
                 .build();
 
-
         book.setQuantity(book.getQuantity() - 1);
         book.setAvailable(book.getQuantity() > 0);
         bookRepository.save(book);
 
         BorrowRecord savedRecord = borrowRecordRepository.save(borrowRecord);
+        log.info("Book borrowed successfully. Book ID: {}, User: {}", book.getBookId(), email);
         return borrowRecordMapper.toDto(savedRecord);
     }
 
+    /**
+     * Handles the return process of a borrowed book.
+     */
     @Override
     public BorrowResponseDTO returnBook(Long borrowRecordId) {
         BorrowRecord borrowRecord = borrowRecordRepository.findById(borrowRecordId)
-                .orElseThrow(() -> new EntityNotFoundException("Borrow record not found"));
+                .orElseThrow(() -> {
+                    return new EntityNotFoundException("Borrow record not found");
+                });
 
         if (borrowRecord.getIsReturned()) {
             throw new IllegalStateException("Book already returned");
@@ -77,32 +91,43 @@ public class BorrowServiceImpl implements IBorrowService {
         book.setAvailable(true);
         bookRepository.save(book);
 
-
-
         BorrowRecord updatedRecord = borrowRecordRepository.save(borrowRecord);
+        log.info("Book returned successfully. Borrow Record ID: {}", borrowRecordId);
         return borrowRecordMapper.toDto(updatedRecord);
     }
 
+    /**
+     * Retrieves the borrowing history for a given user.
+     */
     @Override
     public List<BorrowResponseDTO> getBorrowHistoryByUser(Long userId) {
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+                .orElseThrow(() -> {
+                    return new EntityNotFoundException("User not found");
+                });
 
         List<BorrowRecord> borrowRecords = borrowRecordRepository.findByUser(user);
-
+        log.debug("Fetched {} borrow records for user ID: {}", borrowRecords.size(), userId);
         return borrowRecords.stream()
                 .map(borrowRecordMapper::toDto)
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Retrieves all borrow records in the system.
+     */
     @Override
     public List<BorrowResponseDTO> getAllBorrowRecords() {
-        return borrowRecordRepository.findAll()
-                .stream()
+        List<BorrowRecord> records = borrowRecordRepository.findAll();
+        log.debug("Fetched all borrow records. Count: {}", records.size());
+        return records.stream()
                 .map(borrowRecordMapper::toDto)
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Returns a list of all overdue (non-returned and past due date) borrow records.
+     */
     @Override
     public List<BorrowResponseDTO> getOverdueBooks() {
         List<BorrowRecord> overdueRecords = borrowRecordRepository.findByIsReturnedFalse()
@@ -110,16 +135,23 @@ public class BorrowServiceImpl implements IBorrowService {
                 .filter(record -> record.getDueDate().isBefore(LocalDate.now()))
                 .collect(Collectors.toList());
 
+        log.debug("Found {} overdue borrow records", overdueRecords.size());
         return overdueRecords.stream()
                 .map(borrowRecordMapper::toDto)
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Deletes a borrow record by its ID.
+     */
     @Override
     public void deleteBorrowRecord(Long borrowRecordId) {
         BorrowRecord record = borrowRecordRepository.findById(borrowRecordId)
-                .orElseThrow(() -> new EntityNotFoundException("Borrow Record Not Found."));
+                .orElseThrow(() -> {
+                    return new EntityNotFoundException("Borrow Record Not Found.");
+                });
 
         borrowRecordRepository.delete(record);
+        log.warn("Borrow record deleted. ID: {}", borrowRecordId);
     }
 }

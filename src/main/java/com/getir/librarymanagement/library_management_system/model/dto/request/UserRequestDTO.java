@@ -26,5 +26,4 @@ public class UserRequestDTO {
     private String phone;
 
     private Role role;
-
 }

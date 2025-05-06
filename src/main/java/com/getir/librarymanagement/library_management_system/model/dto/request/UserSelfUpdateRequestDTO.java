@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 @Builder
 public class UserSelfUpdateRequestDTO {
+
         @NotBlank
         private String name;
 

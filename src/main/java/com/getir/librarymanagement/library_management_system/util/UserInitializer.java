@@ -15,6 +15,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Initializes the system with default users and sample books
+ * when the application starts. Useful for local testing and demos.
+ */
 @Configuration
 @RequiredArgsConstructor
 @Slf4j
@@ -24,14 +28,20 @@ public class UserInitializer implements CommandLineRunner {
     private final BookRepository bookRepository;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * Executes initialization logic after the application context is loaded.
+     */
     @Override
     public void run(String... args) {
-
         createDefaultLibrarian();
         createDefaultPatron();
         createSampleBooks();
     }
-    
+
+    /**
+     * Creates a default librarian user if not already present in the database.
+     * Useful for logging in to the admin interface initially.
+     */
     private void createDefaultLibrarian() {
         String email = "librarian@getir.com";
         if (userRepository.findByEmail(email).isEmpty()) {
@@ -50,6 +60,9 @@ public class UserInitializer implements CommandLineRunner {
         }
     }
 
+    /**
+     * Creates a default patron user for basic access testing.
+     */
     private void createDefaultPatron() {
         String email = "patron@getir.com";
         if (userRepository.findByEmail(email).isEmpty()) {
@@ -68,6 +81,10 @@ public class UserInitializer implements CommandLineRunner {
         }
     }
 
+    /**
+     * Creates a set of sample books if none exist.
+     * Useful for populating the initial catalog.
+     */
     private void createSampleBooks() {
         if (bookRepository.findAll().isEmpty()) {
             Book book1 = Book.builder()
@@ -97,4 +114,3 @@ public class UserInitializer implements CommandLineRunner {
         }
     }
 }
-

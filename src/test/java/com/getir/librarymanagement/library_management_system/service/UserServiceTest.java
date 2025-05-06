@@ -142,7 +142,7 @@ class UserServiceTest {
 
         String result = userService.deleteUser(createdUser.getUserId());
 
-        assertEquals("User Deleted Succesfully!", result);
+        assertEquals("User Deleted Successfully!", result);
         assertFalse(userRepository.findById(createdUser.getUserId()).isPresent());
     }
 

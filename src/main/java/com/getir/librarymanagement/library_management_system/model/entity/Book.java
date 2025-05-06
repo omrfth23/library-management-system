@@ -12,7 +12,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-
+/**
+ * Represents a book in the library system.
+ */
 @Entity
 @Table(name = "books")
 @Data
@@ -46,6 +48,10 @@ public class Book {
     @Min(0)
     private Integer quantity;
 
+    /**
+     * Indicates whether the book is currently available for borrowing.
+     * Automatically managed in business logic.
+     */
     private boolean available;
 
 }

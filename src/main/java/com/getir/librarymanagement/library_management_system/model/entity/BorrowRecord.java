@@ -1,7 +1,6 @@
 package com.getir.librarymanagement.library_management_system.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -11,6 +10,10 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+/**
+ * Represents a borrowing record in the system.
+ * Links a user with a book for a given time period.
+ */
 @Entity
 @Table(name = "borrow_records")
 @Data
@@ -32,15 +35,25 @@ public class BorrowRecord {
 
     private LocalDate returnDate;
 
-    private Boolean isReturned = false; // default = false
+    /**
+     * Indicates whether the book has been returned.
+     * Defaults to false when a record is created.
+     */
+    private Boolean isReturned = false;
 
-    //User obejsi ile Many-One ilişki
+    /**
+     * Many-to-one relationship to the user who borrowed the book.
+     * Eager fetch ensures the user is loaded with the borrow record.
+     */
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonBackReference
+    @JsonBackReference // Prevents infinite recursion in JSON serialization
     private User user;
 
-    //Book objesi Many-One şeklinde ilişki
+    /**
+     * Many-to-one relationship to the book being borrowed.
+     * Eager fetch ensures the book is available with the borrow record.
+     */
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;

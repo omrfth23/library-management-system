@@ -12,6 +12,7 @@ import com.getir.librarymanagement.library_management_system.security.jwt.JwtUti
 import com.getir.librarymanagement.library_management_system.service.AuthService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,8 +21,12 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+/**
+ * Implementation of the AuthService for handling user registration and login.
+ */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthServiceImpl implements AuthService {
 
     private final AuthenticationManager authenticationManager;
@@ -30,6 +35,13 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
+    /**
+     * Registers a new user with default role PATRON.
+     * Validates unique email and phone number before saving.
+     *
+     * @param registerRequest user input for registration
+     * @return user info and JWT token
+     */
     @Override
     public RegisterResponseDTO register(RegisterRequestDTO registerRequest) {
         if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
@@ -45,11 +57,12 @@ public class AuthServiceImpl implements AuthService {
                 .email(registerRequest.getEmail())
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .phone(registerRequest.getPhone())
-                .role(Role.valueOf("PATRON"))
+                .role(Role.PATRON)
                 .registeredDate(LocalDateTime.now())
                 .build();
 
         User savedUser = userRepository.save(user);
+        log.info("New user registered: {}", savedUser.getEmail());
 
         String token = jwtUtil.generateToken(savedUser.getEmail(), savedUser.getRole().name());
 
@@ -61,6 +74,13 @@ public class AuthServiceImpl implements AuthService {
         );
     }
 
+    /**
+     * Authenticates user with email and password.
+     * Returns a JWT token on success.
+     *
+     * @param loginRequest login credentials
+     * @return JWT token and message
+     */
     @Override
     public LoginResponseDTO login(LoginRequestDTO loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -68,11 +88,13 @@ public class AuthServiceImpl implements AuthService {
         );
 
         User user = userRepository.findByEmail(loginRequest.getEmail())
-                .orElseThrow(() -> new EntityNotFoundException("User not found with email: " + loginRequest.getEmail()));
+                .orElseThrow(() -> {
+                    return new EntityNotFoundException("User not found with email: " + loginRequest.getEmail());
+                });
 
         String token = jwtUtil.generateToken(user.getEmail(), user.getRole().name());
+        log.info("User logged in successfully: {}", user.getEmail());
+
         return new LoginResponseDTO(token, "Login successful");
-
     }
-
-} 
+}

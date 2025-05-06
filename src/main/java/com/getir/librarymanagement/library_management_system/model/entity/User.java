@@ -13,8 +13,11 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Represents a user in the system, either a LIBRARIAN or a PATRON.
+ */
 @Entity
-@Table(name = "users") // PostgreSQL'de 'user' rezerve kelime olduğu için 'users' diyoruz.
+@Table(name = "users") // 'user' is a reserved keyword in PostgreSQL
 @Data
 @Builder
 @AllArgsConstructor
@@ -39,13 +42,20 @@ public class User {
     @Column(unique = true, nullable = false)
     private String phone;
 
+    /**
+     * Role of the user (e.g., LIBRARIAN or PATRON).
+     */
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
 
     private LocalDateTime registeredDate;
 
+    /**
+     * One-to-many relationship with borrow records.
+     * This field represents the list of books borrowed by the user.
+     */
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
+    @JsonManagedReference // Prevents circular references in JSON output
     private List<BorrowRecord> borrowRecords;
 }

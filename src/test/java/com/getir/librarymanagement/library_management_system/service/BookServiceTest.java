@@ -111,7 +111,7 @@ class BookServiceTest {
 
         String result = bookService.deleteBook(created.getBookId());
 
-        assertEquals("Book Deleted Succesfully!", result);
+        assertEquals("Book Deleted Successfully!", result);
         assertFalse(bookRepository.findById(created.getBookId()).isPresent());
     }
 

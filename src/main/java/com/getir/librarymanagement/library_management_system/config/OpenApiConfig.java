@@ -10,11 +10,20 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 
+/**
+ * Configuration class for OpenAPI (Swagger) documentation.
+ * Adds JWT-based security schema to Swagger UI.
+ */
 @Configuration
 public class OpenApiConfig {
 
     private static final String SECURITY_SCHEME_NAME = "bearerAuth";
 
+    /**
+     * Defines the OpenAPI specification for the application, including title, version, and security config.
+     *
+     * @return configured OpenAPI instance
+     */
     @Bean
     public OpenAPI openAPI() {
         return new OpenAPI()
