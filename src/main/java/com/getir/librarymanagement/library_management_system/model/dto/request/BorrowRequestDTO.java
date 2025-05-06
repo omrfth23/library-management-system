@@ -20,6 +20,4 @@ public class BorrowRequestDTO {
     @NotNull(message = "Borrow date cannot be null")
     private LocalDate borrowDate;
 
-    @NotNull(message = "Due date cannot be null")
-    private LocalDate dueDate;
 }

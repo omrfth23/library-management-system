@@ -5,6 +5,7 @@ import com.getir.librarymanagement.library_management_system.model.entity.Borrow
 import com.getir.librarymanagement.library_management_system.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -35,4 +36,14 @@ public interface BorrowRecordRepository extends JpaRepository<BorrowRecord, Long
      * @return list of currently borrowed (not returned) records
      */
     List<BorrowRecord> findByIsReturnedFalse();
+
+    /**
+     * Checks whether the user has any overdue books (not returned and past due date).
+     */
+    boolean existsByUserAndIsReturnedFalseAndDueDateBefore(User user, LocalDate date);
+
+    /**
+     * Checks whether the user has already borrowed a specific book and has not returned it yet.
+     */
+    boolean existsByUserAndBookAndIsReturnedFalse(User user, Book book);
 }

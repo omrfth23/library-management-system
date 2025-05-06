@@ -43,20 +43,36 @@ public class BorrowServiceImpl implements IBorrowService {
                     return new EntityNotFoundException("User not found.");
                 });
 
+        boolean hasOverdue = borrowRecordRepository
+                .existsByUserAndIsReturnedFalseAndDueDateBefore(user, LocalDate.now());
+
+        if (hasOverdue) {
+            throw new IllegalStateException("You have overdue books. Please return them before borrowing another.");
+        }
+
         Book book = bookRepository.findById(borrowRequestDTO.getBookId())
                 .orElseThrow(() -> {
                     return new EntityNotFoundException("Book not found");
                 });
 
+        boolean alreadyBorrowed = borrowRecordRepository
+                .existsByUserAndBookAndIsReturnedFalse(user, book);
+        if (alreadyBorrowed) {
+            throw new IllegalStateException("You have already borrowed this book and not returned it.");
+        }
+
         if (book.getQuantity() <= 0) {
             throw new BookOutOfStockException("Book is not available for borrowing.");
         }
+
+        LocalDate borrowDate = borrowRequestDTO.getBorrowDate();
+        LocalDate dueDate = borrowDate.plusDays(10);
 
         BorrowRecord borrowRecord = BorrowRecord.builder()
                 .user(user)
                 .book(book)
                 .borrowDate(borrowRequestDTO.getBorrowDate())
-                .dueDate(borrowRequestDTO.getDueDate())
+                .dueDate(dueDate)
                 .isReturned(false)
                 .build();
 
