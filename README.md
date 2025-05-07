@@ -21,7 +21,7 @@ This Library Management System is a RESTful API that enables efficient managemen
   - Real-time book availability updates using Server-Sent Events (SSE)
 
 - **Borrowing System**
-  - Borrow and return books
+  - Borrow and return books (Max 3 Books)
   - Track borrowing history
   - Monitor overdue books
   - Automatic availability updates
