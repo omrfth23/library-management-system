@@ -43,6 +43,12 @@ public class BorrowServiceImpl implements IBorrowService {
                     return new EntityNotFoundException("User not found.");
                 });
 
+        long activeBorrowCount = borrowRecordRepository.countByUserAndIsReturnedFalse(user);
+
+        if (activeBorrowCount >= 3) {
+            throw new IllegalStateException("You have already borrowed the maximum number of books (3). Please return a book to borrow a new one.");
+        }
+
         boolean hasOverdue = borrowRecordRepository
                 .existsByUserAndIsReturnedFalseAndDueDateBefore(user, LocalDate.now());
 
@@ -66,6 +72,12 @@ public class BorrowServiceImpl implements IBorrowService {
         }
 
         LocalDate borrowDate = borrowRequestDTO.getBorrowDate();
+        LocalDate today = LocalDate.now();
+
+        if (borrowDate.isAfter(today)) {
+            throw new IllegalArgumentException("Borrow date cannot be in the future. Please select today's date or a past date.");
+        }
+
         LocalDate dueDate = borrowDate.plusDays(10);
 
         BorrowRecord borrowRecord = BorrowRecord.builder()

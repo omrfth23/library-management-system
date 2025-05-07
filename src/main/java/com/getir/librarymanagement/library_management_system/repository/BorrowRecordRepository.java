@@ -46,4 +46,12 @@ public interface BorrowRecordRepository extends JpaRepository<BorrowRecord, Long
      * Checks whether the user has already borrowed a specific book and has not returned it yet.
      */
     boolean existsByUserAndBookAndIsReturnedFalse(User user, Book book);
+
+    /**
+     * Counts the number of currently borrowed (not returned) books for a user.
+     *
+     * @param user the user whose borrow count is being checked
+     * @return the count of active borrow records
+     */
+    long countByUserAndIsReturnedFalse(User user);
 }
