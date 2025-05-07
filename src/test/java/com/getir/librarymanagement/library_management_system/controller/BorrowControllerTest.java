@@ -32,7 +32,6 @@ class BorrowControllerTest {
         BorrowRequestDTO request = BorrowRequestDTO.builder()
                 .bookId(1L)
                 .borrowDate(LocalDate.now())
-                .dueDate(LocalDate.now().plusDays(7))
                 .build();
 
         BorrowResponseDTO responseDTO = BorrowResponseDTO.builder()

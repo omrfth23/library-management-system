@@ -134,9 +134,9 @@ class UserControllerTest {
     void testDeleteUser_success() {
         when(userService.deleteUser(1L)).thenReturn("User Deleted Succesfully!");
 
-        ResponseEntity<Void> response = userController.deleteUser(1L);
+        ResponseEntity<String> response = userController.deleteUser(1L);
 
-        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         verify(userService).deleteUser(1L);
     }
 }

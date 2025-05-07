@@ -88,7 +88,6 @@ class BorrowServiceTest {
         BorrowRequestDTO borrowRequest = BorrowRequestDTO.builder()
                 .bookId(bookId)
                 .borrowDate(LocalDate.now())
-                .dueDate(LocalDate.now().plusDays(7))
                 .build();
 
         BorrowResponseDTO response = borrowService.borrowBook(borrowRequest);
@@ -105,7 +104,6 @@ class BorrowServiceTest {
         BorrowRequestDTO borrowRequest = BorrowRequestDTO.builder()
                 .bookId(bookId)
                 .borrowDate(LocalDate.now().minusDays(3))
-                .dueDate(LocalDate.now().plusDays(3))
                 .build();
 
         BorrowResponseDTO borrowRecord = borrowService.borrowBook(borrowRequest);
@@ -121,7 +119,6 @@ class BorrowServiceTest {
         BorrowRequestDTO borrowRequest = BorrowRequestDTO.builder()
                 .bookId(bookId)
                 .borrowDate(LocalDate.now())
-                .dueDate(LocalDate.now().plusDays(5))
                 .build();
 
         borrowService.borrowBook(borrowRequest);
@@ -141,7 +138,6 @@ class BorrowServiceTest {
         borrowService.borrowBook(BorrowRequestDTO.builder()
                 .bookId(bookId)
                 .borrowDate(LocalDate.now())
-                .dueDate(LocalDate.now().plusDays(5))
                 .build());
 
         List<BorrowResponseDTO> records = borrowService.getAllBorrowRecords();
@@ -154,8 +150,7 @@ class BorrowServiceTest {
         // overdue record
         borrowService.borrowBook(BorrowRequestDTO.builder()
                 .bookId(bookId)
-                .borrowDate(LocalDate.now().minusDays(10))
-                .dueDate(LocalDate.now().minusDays(5))
+                .borrowDate(LocalDate.now().minusDays(15))
                 .build());
 
         List<BorrowResponseDTO> overdue = borrowService.getOverdueBooks();
@@ -170,7 +165,6 @@ class BorrowServiceTest {
         BorrowRequestDTO borrowRequest = BorrowRequestDTO.builder()
                 .bookId(bookId)
                 .borrowDate(LocalDate.now())
-                .dueDate(LocalDate.now().plusDays(7))
                 .build();
 
         BorrowResponseDTO response = borrowService.borrowBook(borrowRequest);
@@ -191,7 +185,6 @@ class BorrowServiceTest {
         BorrowRequestDTO invalidRequest = BorrowRequestDTO.builder()
                 .bookId(9999L)
                 .borrowDate(LocalDate.now())
-                .dueDate(LocalDate.now().plusDays(7))
                 .build();
 
         assertThrows(EntityNotFoundException.class, () -> borrowService.borrowBook(invalidRequest));

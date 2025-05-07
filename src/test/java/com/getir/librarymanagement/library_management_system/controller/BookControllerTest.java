@@ -102,9 +102,9 @@ class BookControllerTest {
     void testDeleteBook_success() {
         when(bookService.deleteBook(1L)).thenReturn("Book deleted successfully!");
 
-        ResponseEntity<Void> response = bookController.deleteBook(1L);
+        ResponseEntity<String> response = bookController.deleteBook(1L);
 
-        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         verify(bookService).deleteBook(1L);
     }
 }
