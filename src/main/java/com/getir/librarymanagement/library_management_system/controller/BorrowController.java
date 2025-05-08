@@ -82,6 +82,16 @@ public class BorrowController {
     }
 
     /**
+     * Generates and return the overdue report.
+     */
+    @Operation(summary = "Generate the overdue report", description = "Generates and return the overdue report. Accessible by LIBRARIAN only.")
+    @PreAuthorize("hasRole('LIBRARIAN')")
+    @GetMapping("/overdue/report")
+    public String getOverdueReport() {
+        return borrowService.generateOverdueReport();
+    }
+
+    /**
      * Deletes a specific borrow record. Only accessible to librarians.
      */
     @Operation(summary = "Delete borrow record", description = "Deletes a borrow record by its ID. Accessible by LIBRARIAN only.")

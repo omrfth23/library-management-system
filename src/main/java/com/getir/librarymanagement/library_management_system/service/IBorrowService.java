@@ -50,6 +50,13 @@ public interface IBorrowService {
     List<BorrowResponseDTO> getOverdueBooks();
 
     /**
+     * Generates a report for overdue borrow records.
+     *
+     * @return formatted report as a string
+     */
+    String generateOverdueReport();
+
+    /**
      * Deletes a borrow record by its ID.
      *
      * @param borrowRecordId ID of the record to delete

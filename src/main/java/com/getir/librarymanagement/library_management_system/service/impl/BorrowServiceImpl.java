@@ -18,6 +18,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -167,6 +169,52 @@ public class BorrowServiceImpl implements IBorrowService {
         return overdueRecords.stream()
                 .map(borrowRecordMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Generates a report for overdue borrow records.
+     */
+    public String generateOverdueReport() {
+        List<BorrowRecord> borrowRecords = borrowRecordRepository.findAll();
+        int totalBorrows = borrowRecords.size();
+        int overdueCount = countOverdueBooks(borrowRecords);
+        int notReturnedCount = countNotReturnedBooks(borrowRecords);
+        int returnedCount = countReturnedBooks(borrowRecords);
+
+        return """
+                LIBRARY MANAGEMENT - OVERDUE REPORT
+                -----------------------------------
+                Total Borrow Records: %d
+                Overdue Books: %d
+                Not Returned: %d
+                Returned Books: %d
+                
+                Report Generated: %s
+                """.formatted(
+                totalBorrows,
+                overdueCount,
+                notReturnedCount,
+                returnedCount,
+                LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        );
+    }
+
+    private int countOverdueBooks(List<BorrowRecord> borrowRecords) {
+        return (int) borrowRecords.stream()
+                .filter(record -> !record.getIsReturned() && record.getDueDate().isBefore(LocalDate.now()))
+                .count();
+    }
+
+    private int countNotReturnedBooks(List<BorrowRecord> borrowRecords) {
+        return (int) borrowRecords.stream()
+                .filter(record -> !record.getIsReturned())
+                .count();
+    }
+
+    private int countReturnedBooks(List<BorrowRecord> borrowRecords) {
+        return (int) borrowRecords.stream()
+                .filter(BorrowRecord::getIsReturned)
+                .count();
     }
 
     /**
