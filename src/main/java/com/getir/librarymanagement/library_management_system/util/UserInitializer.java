@@ -103,7 +103,7 @@ public class UserInitializer implements CommandLineRunner {
                     .isbn("9780134685991")
                     .publicationDate(LocalDate.of(2018, 1, 6))
                     .genre("Programming")
-                    .quantity(3)
+                    .quantity(1)
                     .available(true)
                     .build();
 
