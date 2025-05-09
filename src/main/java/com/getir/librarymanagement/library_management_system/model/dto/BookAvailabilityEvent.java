@@ -1,3 +1,14 @@
 package com.getir.librarymanagement.library_management_system.model.dto;
 
-public record BookAvailabilityEvent(Long bookId, boolean available) {}
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class BookAvailabilityEvent {
+
+    private Long bookId;
+    private boolean available;
+}
