@@ -155,7 +155,7 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "Update User",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -306,7 +306,12 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Test User\",\r\n    \"email\": \"internet.email\",\r\n    \"password\": \"password123\",\r\n    \"phone\": \"05002002030\",\r\n    \"role\": \"PATRON\"\r\n}"
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "http://localhost:8080/api/borrow",
@@ -343,7 +348,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Test User\",\r\n    \"email\": \"internet.email\",\r\n    \"password\": \"password123\",\r\n    \"phone\": \"05002002030\",\r\n    \"role\": \"PATRON\"\r\n}"
+							"raw": ""
 						},
 						"url": {
 							"raw": "http://localhost:8080/api/users/:id",
@@ -706,6 +711,16 @@
 				{
 					"name": "Update Book",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaWJyYXJpYW5AZ2V0aXIuY29tIiwicm9sZSI6IkxJQlJBUklBTiIsImlhdCI6MTc0NjgwODc3MSwiZXhwIjoxNzQ2ODk1MTcxfQ.htO4bl82u55WTeegR_99lpCxOXq-CXw0QzRPeGQtWm8",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
