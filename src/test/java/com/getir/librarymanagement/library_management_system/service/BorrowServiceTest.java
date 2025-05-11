@@ -54,20 +54,20 @@ class BorrowServiceTest {
 
     @BeforeEach
     void setUp() {
-        // sahte kullanıcı oturumu oluştur
+
         UsernamePasswordAuthenticationToken auth =
                 new UsernamePasswordAuthenticationToken("borrow@example.com", null, List.of());
 
         SecurityContextHolder.getContext().setAuthentication(auth);
 
-        // kullanıcı ve kitap oluşturma (önceki kod)
+
         borrowRecordRepository.deleteAll();
         userRepository.deleteAll();
         bookRepository.deleteAll();
 
         userService.createUser(UserRequestDTO.builder()
                 .name("Borrow Test User")
-                .email("borrow@example.com") // aynı e-posta burada da
+                .email("borrow@example.com")
                 .password("password")
                 .phone("123456789")
                 .role(Role.LIBRARIAN)

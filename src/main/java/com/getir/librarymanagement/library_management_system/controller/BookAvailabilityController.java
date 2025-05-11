@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
+import java.time.Duration;
+import java.util.concurrent.TimeoutException;
+
 /**
  * REST controller for streaming real-time book availability updates.
  * Uses Server-Sent Events (SSE) to push updates to clients.
@@ -37,6 +40,10 @@ public class BookAvailabilityController {
     )
     @GetMapping(value = "/availability", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<BookAvailabilityEvent> streamAvailability() {
-        return streamService.getAvailabilityStream();
+        return streamService.getAvailabilityStream()
+                .timeout(Duration.ofSeconds(10))
+                .onErrorResume(TimeoutException.class, ex ->
+                        Flux.just(new BookAvailabilityEvent(null, false))
+                );
     }
 }

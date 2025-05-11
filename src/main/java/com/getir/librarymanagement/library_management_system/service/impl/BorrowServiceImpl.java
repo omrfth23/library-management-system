@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -195,7 +194,7 @@ public class BorrowServiceImpl implements IBorrowService {
                 overdueCount,
                 notReturnedCount,
                 returnedCount,
-                LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+                LocalDateTime.now()
         );
     }
 
