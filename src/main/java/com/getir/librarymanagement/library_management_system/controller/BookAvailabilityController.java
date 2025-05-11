@@ -40,10 +40,6 @@ public class BookAvailabilityController {
     )
     @GetMapping(value = "/availability", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<BookAvailabilityEvent> streamAvailability() {
-        return streamService.getAvailabilityStream()
-                .timeout(Duration.ofSeconds(10))
-                .onErrorResume(TimeoutException.class, ex ->
-                        Flux.just(new BookAvailabilityEvent(null, false))
-                );
+        return streamService.getAvailabilityStream();
     }
 }
