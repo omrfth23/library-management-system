@@ -87,8 +87,9 @@ public class BorrowController {
     @Operation(summary = "Generate the overdue report", description = "Generates and return the overdue report. Accessible by LIBRARIAN only.")
     @PreAuthorize("hasRole('LIBRARIAN')")
     @GetMapping("/overdue/report")
-    public String getOverdueReport() {
-        return borrowService.generateOverdueReport();
+    public ResponseEntity<String> getOverdueReport() {
+        String report = borrowService.generateOverdueReport();
+        return ResponseEntity.ok(report);
     }
 
     /**

@@ -5,6 +5,7 @@ import com.getir.librarymanagement.library_management_system.model.dto.request.B
 import com.getir.librarymanagement.library_management_system.model.dto.request.BorrowRequestDTO;
 import com.getir.librarymanagement.library_management_system.model.dto.request.UserRequestDTO;
 import com.getir.librarymanagement.library_management_system.model.dto.response.BorrowResponseDTO;
+import com.getir.librarymanagement.library_management_system.model.entity.BorrowRecord;
 import com.getir.librarymanagement.library_management_system.repository.BookRepository;
 import com.getir.librarymanagement.library_management_system.repository.BorrowRecordRepository;
 import com.getir.librarymanagement.library_management_system.repository.UserRepository;
@@ -157,6 +158,54 @@ class BorrowServiceTest {
 
         assertEquals(1, overdue.size());
         assertTrue(overdue.get(0).getDueDate().isBefore(LocalDate.now()));
+    }
+
+    @Test
+    void testGenerateOverdueReport() {
+
+        var user = userRepository.findByEmail("borrow@example.com")
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        var book = bookRepository.findById(bookId).orElseThrow();
+
+        // Overdue record
+        BorrowRecord overdueRecord = BorrowRecord.builder()
+                .borrowDate(LocalDate.now().minusDays(15))
+                .dueDate(LocalDate.now().minusDays(5))
+                .isReturned(false)
+                .book(book)
+                .user(user)
+                .build();
+
+        // Not Returned, Not Overdue
+        BorrowRecord notReturnedRecord = BorrowRecord.builder()
+                .borrowDate(LocalDate.now().minusDays(5))
+                .dueDate(LocalDate.now().plusDays(5))
+                .isReturned(false)
+                .book(book)
+                .user(user)
+                .build();
+
+        // Returned
+        BorrowRecord returnedRecord = BorrowRecord.builder()
+                .borrowDate(LocalDate.now().minusDays(20))
+                .dueDate(LocalDate.now().minusDays(10))
+                .isReturned(true)
+                .book(book)
+                .user(user)
+                .build();
+
+        borrowRecordRepository.saveAll(List.of(overdueRecord, notReturnedRecord, returnedRecord));
+
+        String report = borrowService.generateOverdueReport();
+
+        System.out.println(report);
+
+        assertTrue(report.contains("Total Borrow Records: 3"));
+        assertTrue(report.contains("Overdue Books: 1"));
+        assertTrue(report.contains("Not Returned: 2"));
+        assertTrue(report.contains("Returned Books: 1"));
+        assertTrue(report.contains("Report Generated:"));
     }
 
     @Test

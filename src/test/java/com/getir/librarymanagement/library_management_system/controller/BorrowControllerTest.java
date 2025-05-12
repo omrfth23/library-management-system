@@ -97,6 +97,32 @@ class BorrowControllerTest {
     }
 
     @Test
+    void testGetOverdueReport_success() {
+        String report = """
+                LIBRARY MANAGEMENT - OVERDUE REPORT
+                -----------------------------------
+                Total Borrow Records: 3
+                Overdue Books: 1
+                Not Returned: 2
+                Returned Books: 1
+                
+                Report Generated: 2025-05-10T14:30:00
+                """;
+
+        when(borrowService.generateOverdueReport()).thenReturn(report);
+
+        ResponseEntity<String> response = borrowController.getOverdueReport();
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertTrue(response.getBody().contains("Overdue Books: 1"));
+        assertTrue(response.getBody().contains("Not Returned: 2"));
+        assertTrue(response.getBody().contains("Returned Books: 1"));
+
+        verify(borrowService, times(1)).generateOverdueReport();
+    }
+
+    @Test
     void testGetAllBorrowRecords_success() {
         List<BorrowResponseDTO> records = Collections.singletonList(
                 BorrowResponseDTO.builder().borrowRecordId(1L).bookId(1L).build()
