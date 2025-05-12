@@ -128,6 +128,7 @@ http://localhost:8080/swagger-ui/index.html
 - `GET /api/borrow/overdue/report` - Generate overdue report (Librarian only)
 - `DELETE /api/borrow/{id}` - Deletes a borrow record by its ID (Librarian only)
 
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/29589820-f14cadad-4e86-45e3-935d-6b47fac5f84c?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29589820-f14cadad-4e86-45e3-935d-6b47fac5f84c%26entityType%3Dcollection%26workspaceId%3D7addd845-d910-4c40-98a9-78af2cc9f491)
 ## Database Schema
 
 The system uses the following main entities:
@@ -191,4 +192,4 @@ The test suite includes:
 - Integration tests with H2 in-memory database
 - Security configuration tests
 
-[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/29589820-f14cadad-4e86-45e3-935d-6b47fac5f84c?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D29589820-f14cadad-4e86-45e3-935d-6b47fac5f84c%26entityType%3Dcollection%26workspaceId%3D7addd845-d910-4c40-98a9-78af2cc9f491)
+
