@@ -141,6 +141,7 @@ The system uses the following main entities:
 - phone (unique)
 - role (LIBRARIAN/PATRON)
 - registeredDate
+- borrow records (OneToMany)
 
 ### Books
 - bookId (PK)
@@ -158,8 +159,8 @@ The system uses the following main entities:
 - dueDate
 - returnDate
 - isReturned
-- userId (FK)
-- bookId (FK)
+- userId (FK) (ManyToOne)
+- bookId (FK) (ManyToOne)
 
 ## Default Users
 
