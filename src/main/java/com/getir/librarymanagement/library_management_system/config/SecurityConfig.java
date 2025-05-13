@@ -1,5 +1,6 @@
-package com.getir.librarymanagement.library_management_system.security;
+package com.getir.librarymanagement.library_management_system.config;
 
+import com.getir.librarymanagement.library_management_system.security.CustomUserDetailsService;
 import com.getir.librarymanagement.library_management_system.security.jwt.JwtAuthenticationEntryPoint;
 import com.getir.librarymanagement.library_management_system.security.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +49,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll() // Public auth endpoints
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll() // Swagger access
-                        .requestMatchers("/api/stream/**").permitAll()
+                        .requestMatchers("/api/stream/**", "/actuator/**", "/h2-console/**").permitAll()
                         .anyRequest().authenticated() // All other endpoints require authentication
                 )
                 .httpBasic(Customizer.withDefaults())
