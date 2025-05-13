@@ -1,4 +1,4 @@
-package com.getir.librarymanagement.library_management_system.util;
+package com.getir.librarymanagement.library_management_system.config;
 
 import com.getir.librarymanagement.library_management_system.enums.Role;
 import com.getir.librarymanagement.library_management_system.model.entity.Book;
@@ -22,7 +22,7 @@ import java.util.List;
 @Configuration
 @RequiredArgsConstructor
 @Slf4j
-public class UserInitializer implements CommandLineRunner {
+public class UserInitializerConfig implements CommandLineRunner {
 
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
