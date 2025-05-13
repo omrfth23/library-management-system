@@ -124,6 +124,7 @@ http://localhost:8080/swagger-ui/index.html
 - `POST /api/borrow` - Borrow a book
 - `PUT /api/borrow/return/{id}` - Return a book
 - `GET /api/borrow` - Get all borrow records (Librarian only)
+- `GET /api/borrow/user/{userId}` - Get borrow records by user ID (Librarian only)
 - `GET /api/borrow/overdue` - Get overdue books (Librarian only)
 - `GET /api/borrow/overdue/report` - Generate overdue report (Librarian only)
 - `DELETE /api/borrow/{id}` - Deletes a borrow record by its ID (Librarian only)
