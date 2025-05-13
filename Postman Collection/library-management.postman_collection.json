@@ -4,7 +4,7 @@
 		"name": "library-management",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "29589820",
-		"_collection_link": "https://lively-flare-815500.postman.co/workspace/library-management~81de4bb6-6604-4151-862b-fdb37baec337/collection/29589820-f14cadad-4e86-45e3-935d-6b47fac5f84c?action=share&source=collection_link&creator=29589820"
+		"_collection_link": "https://www.postman.com/lively-flare-815500/workspace/library-management-system/collection/29589820-f14cadad-4e86-45e3-935d-6b47fac5f84c?action=share&source=collection_link&creator=29589820"
 	},
 	"item": [
 		{
@@ -18,7 +18,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaWJyYXJpYW5AZ2V0aXIuY29tIiwicm9sZSI6IkxJQlJBUklBTiIsImlhdCI6MTc0Njc4NDg5NywiZXhwIjoxNzQ2ODcxMjk3fQ.AL5DXZ3THfzXVs4r95aWBipEK-hwpKV3RmM-fK6Z_XY",
+									"value": "{{vault:authorization-secret}}",
 									"type": "string"
 								}
 							]
@@ -48,7 +48,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaWJyYXJpYW5AZ2V0aXIuY29tIiwicm9sZSI6IkxJQlJBUklBTiIsImlhdCI6MTc0Njc4NDg5NywiZXhwIjoxNzQ2ODcxMjk3fQ.AL5DXZ3THfzXVs4r95aWBipEK-hwpKV3RmM-fK6Z_XY",
+									"value": "{{vault:authorization-secret}}",
 									"type": "string"
 								}
 							]
@@ -79,7 +79,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaWJyYXJpYW5AZ2V0aXIuY29tIiwicm9sZSI6IkxJQlJBUklBTiIsImlhdCI6MTc0Njc4NDg5NywiZXhwIjoxNzQ2ODcxMjk3fQ.AL5DXZ3THfzXVs4r95aWBipEK-hwpKV3RmM-fK6Z_XY",
+									"value": "{{vault:authorization-secret}}",
 									"type": "string"
 								}
 							]
@@ -116,7 +116,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaWJyYXJpYW5AZ2V0aXIuY29tIiwicm9sZSI6IkxJQlJBUklBTiIsImlhdCI6MTc0Njc4NDg5NywiZXhwIjoxNzQ2ODcxMjk3fQ.AL5DXZ3THfzXVs4r95aWBipEK-hwpKV3RmM-fK6Z_XY",
+									"value": "{{vault:authorization-secret}}",
 									"type": "string"
 								}
 							]
@@ -133,7 +133,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/users/:id",
+							"raw": "http://localhost:8080/api/users",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -141,14 +141,7 @@
 							"port": "8080",
 							"path": [
 								"api",
-								"users",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": ""
-								}
+								"users"
 							]
 						}
 					},
@@ -162,7 +155,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaWJyYXJpYW5AZ2V0aXIuY29tIiwicm9sZSI6IkxJQlJBUklBTiIsImlhdCI6MTc0Njc4NDg5NywiZXhwIjoxNzQ2ODcxMjk3fQ.AL5DXZ3THfzXVs4r95aWBipEK-hwpKV3RmM-fK6Z_XY",
+									"value": "{{vault:authorization-secret}}",
 									"type": "string"
 								}
 							]
@@ -171,7 +164,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Test User\",\r\n    \"email\": \"internet@email\",\r\n    \"password\": \"password123\",\r\n    \"phone\": \"05002002030\",\r\n    \"role\": \"PATRON\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Test User 1\",\r\n    \"email\": \"internet@email\",\r\n    \"password\": \"password123\",\r\n    \"phone\": \"05002002030\",\r\n    \"role\": \"PATRON\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -193,7 +186,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "1"
+									"value": "52"
 								}
 							]
 						}
@@ -208,7 +201,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaWJyYXJpYW5AZ2V0aXIuY29tIiwicm9sZSI6IkxJQlJBUklBTiIsImlhdCI6MTc0Njc4NDg5NywiZXhwIjoxNzQ2ODcxMjk3fQ.AL5DXZ3THfzXVs4r95aWBipEK-hwpKV3RmM-fK6Z_XY",
+									"value": "{{vault:authorization-secret}}",
 									"type": "string"
 								}
 							]
@@ -248,7 +241,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaWJyYXJpYW5AZ2V0aXIuY29tIiwicm9sZSI6IkxJQlJBUklBTiIsImlhdCI6MTc0Njc4NDg5NywiZXhwIjoxNzQ2ODcxMjk3fQ.AL5DXZ3THfzXVs4r95aWBipEK-hwpKV3RmM-fK6Z_XY",
+									"value": "{{vault:authorization-secret}}",
 									"type": "string"
 								}
 							]
@@ -297,7 +290,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaWJyYXJpYW5AZ2V0aXIuY29tIiwicm9sZSI6IkxJQlJBUklBTiIsImlhdCI6MTc0Njc4NDg5NywiZXhwIjoxNzQ2ODcxMjk3fQ.AL5DXZ3THfzXVs4r95aWBipEK-hwpKV3RmM-fK6Z_XY",
+									"value": "{{vault:authorization-secret}}",
 									"type": "string"
 								}
 							]
@@ -339,7 +332,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaWJyYXJpYW5AZ2V0aXIuY29tIiwicm9sZSI6IkxJQlJBUklBTiIsImlhdCI6MTc0Njc4NDg5NywiZXhwIjoxNzQ2ODcxMjk3fQ.AL5DXZ3THfzXVs4r95aWBipEK-hwpKV3RmM-fK6Z_XY",
+									"value": "{{vault:authorization-secret}}",
 									"type": "string"
 								}
 							]
@@ -351,7 +344,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/users/:id",
+							"raw": "http://localhost:8080/api/user/:userId",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -359,13 +352,13 @@
 							"port": "8080",
 							"path": [
 								"api",
-								"users",
-								":id"
+								"user",
+								":userId"
 							],
 							"variable": [
 								{
-									"key": "id",
-									"value": ""
+									"key": "userId",
+									"value": "2"
 								}
 							]
 						}
@@ -380,7 +373,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaWJyYXJpYW5AZ2V0aXIuY29tIiwicm9sZSI6IkxJQlJBUklBTiIsImlhdCI6MTc0Njc4NDg5NywiZXhwIjoxNzQ2ODcxMjk3fQ.AL5DXZ3THfzXVs4r95aWBipEK-hwpKV3RmM-fK6Z_XY",
+									"value": "{{vault:authorization-secret}}",
 									"type": "string"
 								}
 							]
@@ -433,7 +426,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaWJyYXJpYW5AZ2V0aXIuY29tIiwicm9sZSI6IkxJQlJBUklBTiIsImlhdCI6MTc0Njc4NDg5NywiZXhwIjoxNzQ2ODcxMjk3fQ.AL5DXZ3THfzXVs4r95aWBipEK-hwpKV3RmM-fK6Z_XY",
+									"value": "{{vault:authorization-secret}}",
 									"type": "string"
 								}
 							]
@@ -472,7 +465,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaWJyYXJpYW5AZ2V0aXIuY29tIiwicm9sZSI6IkxJQlJBUklBTiIsImlhdCI6MTc0Njc4NDg5NywiZXhwIjoxNzQ2ODcxMjk3fQ.AL5DXZ3THfzXVs4r95aWBipEK-hwpKV3RmM-fK6Z_XY",
+									"value": "{{vault:authorization-secret}}",
 									"type": "string"
 								}
 							]
@@ -510,7 +503,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaWJyYXJpYW5AZ2V0aXIuY29tIiwicm9sZSI6IkxJQlJBUklBTiIsImlhdCI6MTc0NzA0ODg5MCwiZXhwIjoxNzQ3MTM1MjkwfQ.ebIY1D0neTQhKwUavnCycvgvY6sDJChkuJgBGINvR-Q",
+									"value": "{{vault:authorization-secret}}",
 									"type": "string"
 								}
 							]
@@ -552,7 +545,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaWJyYXJpYW5AZ2V0aXIuY29tIiwicm9sZSI6IkxJQlJBUklBTiIsImlhdCI6MTc0Njc4NDg5NywiZXhwIjoxNzQ2ODcxMjk3fQ.AL5DXZ3THfzXVs4r95aWBipEK-hwpKV3RmM-fK6Z_XY",
+									"value": "{{vault:authorization-secret}}",
 									"type": "string"
 								}
 							]
@@ -582,7 +575,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaWJyYXJpYW5AZ2V0aXIuY29tIiwicm9sZSI6IkxJQlJBUklBTiIsImlhdCI6MTc0Njc4NDg5NywiZXhwIjoxNzQ2ODcxMjk3fQ.AL5DXZ3THfzXVs4r95aWBipEK-hwpKV3RmM-fK6Z_XY",
+									"value": "{{vault:authorization-secret}}",
 									"type": "string"
 								}
 							]
@@ -619,7 +612,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaWJyYXJpYW5AZ2V0aXIuY29tIiwicm9sZSI6IkxJQlJBUklBTiIsImlhdCI6MTc0Njc4NDg5NywiZXhwIjoxNzQ2ODcxMjk3fQ.AL5DXZ3THfzXVs4r95aWBipEK-hwpKV3RmM-fK6Z_XY",
+									"value": "{{vault:authorization-secret}}",
 									"type": "string"
 								}
 							]
@@ -627,7 +620,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/books/search?title&author&isbn&genre&page&size",
+							"raw": "http://localhost:8080/api/books/search?title=&author=&isbn=&genre=&page=&size=",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -641,27 +634,27 @@
 							"query": [
 								{
 									"key": "title",
-									"value": null
+									"value": ""
 								},
 								{
 									"key": "author",
-									"value": null
+									"value": ""
 								},
 								{
 									"key": "isbn",
-									"value": null
+									"value": ""
 								},
 								{
 									"key": "genre",
-									"value": null
+									"value": ""
 								},
 								{
 									"key": "page",
-									"value": null
+									"value": ""
 								},
 								{
 									"key": "size",
-									"value": null
+									"value": ""
 								}
 							]
 						}
@@ -676,7 +669,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaWJyYXJpYW5AZ2V0aXIuY29tIiwicm9sZSI6IkxJQlJBUklBTiIsImlhdCI6MTc0Njc4NDg5NywiZXhwIjoxNzQ2ODcxMjk3fQ.AL5DXZ3THfzXVs4r95aWBipEK-hwpKV3RmM-fK6Z_XY",
+									"value": "{{vault:authorization-secret}}",
 									"type": "string"
 								}
 							]
@@ -715,7 +708,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsaWJyYXJpYW5AZ2V0aXIuY29tIiwicm9sZSI6IkxJQlJBUklBTiIsImlhdCI6MTc0NjgwODc3MSwiZXhwIjoxNzQ2ODk1MTcxfQ.htO4bl82u55WTeegR_99lpCxOXq-CXw0QzRPeGQtWm8",
+									"value": "{{vault:authorization-secret}}",
 									"type": "string"
 								}
 							]
@@ -756,6 +749,16 @@
 				{
 					"name": "Delete Book",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{vault:authorization-secret}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -822,7 +825,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Test User\",\r\n    \"email\": \"test@getir.com\",\r\n    \"password\": \"password123\",\r\n    \"phone\": \"05002503685\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Test User 2\",\r\n    \"email\": \"test@getir.com\",\r\n    \"password\": \"password123\",\r\n    \"phone\": \"05002503685\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
