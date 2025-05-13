@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.resource.NoResourceFoundException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -137,6 +138,12 @@ public class BorrowServiceImpl implements IBorrowService {
 
         List<BorrowRecord> borrowRecords = borrowRecordRepository.findByUser(user);
         log.debug("Fetched {} borrow records for user ID: {}", borrowRecords.size(), userId);
+
+        if (borrowRecords.isEmpty()) {
+            log.warn("No borrow records found for user ID: {}", userId);
+            throw new NoResourceFoundException("No borrow records found for user ID: " + userId);
+        }
+
         return borrowRecords.stream()
                 .map(borrowRecordMapper::toDto)
                 .collect(Collectors.toList());

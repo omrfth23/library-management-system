@@ -50,10 +50,10 @@ public class BorrowController {
      */
     @Operation(summary = "Get borrow history by user", description = "Retrieves borrow history by borrow record ID. Accessible by LIBRARIAN only.")
     @PreAuthorize("hasRole('LIBRARIAN')")
-    @GetMapping("/user/{borrowRecordId}")
-    public ResponseEntity<List<BorrowResponseDTO>> getBorrowHistoryByUser(@PathVariable Long borrowRecordId) {
-        log.debug("Fetching borrow history for record ID: {}", borrowRecordId);
-        List<BorrowResponseDTO> borrowHistory = borrowService.getBorrowHistoryByUser(borrowRecordId);
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<BorrowResponseDTO>> getBorrowHistoryByUser(@PathVariable Long userId) {
+        log.debug("Fetching borrow history for record ID: {}", userId);
+        List<BorrowResponseDTO> borrowHistory = borrowService.getBorrowHistoryByUser(userId);
         return ResponseEntity.ok(borrowHistory);
     }
 
