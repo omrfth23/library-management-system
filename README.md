@@ -72,8 +72,8 @@ The application will be available at `http://localhost:8080`
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/omrfth23/Patika.dev-Getir-Java-Spring-Boot-Bootcamp-Project.git
-   cd Patika.dev-Getir-Java-Spring-Boot-Bootcamp-Project
+   git clone https://github.com/omrfth23/library-management-system.git
+   cd library-management-system
    ```
 
 2. Configure PostgreSQL:
